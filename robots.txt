@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://netrojo.github.io/portfolio/sitemap.xml
