@@ -723,6 +723,60 @@
             transform: translate(-50%, -50%);
         }
 
+        /* --- Tech marquee --- */
+        .marquee {
+            overflow: hidden;
+            padding: 1.2rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            white-space: nowrap;
+        }
+
+        .marquee-track {
+            display: inline-block;
+            animation: slide 30s linear infinite;
+        }
+
+        .marquee-track span {
+            margin: 0 2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--muted);
+            transition: color 0.3s;
+        }
+
+        .marquee-track span:hover { color: var(--accent); }
+
+        @keyframes slide {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* --- Back to top --- */
+        .back-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            z-index: 90;
+            box-shadow: 0 4px 20px var(--glow);
+        }
+
+        .back-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .back-top:hover { transform: translateY(-2px); }
+
         /* --- Responsive --- */
         @media (max-width: 900px) {
             .projects-grid { grid-template-columns: 1fr; }
@@ -775,9 +829,18 @@
             <div class="hero-buttons">
                 <button class="btn-primary" onclick="document.querySelector('#projects').scrollIntoView({behavior:'smooth'})">View My Work</button>
                 <button class="btn-secondary" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Contact Me</button>
+                <button class="btn-secondary" onclick="window.open('https://github.com/netrojo','_blank')">My GitHub ↗</button>
             </div>
         </div>
     </section>
+
+    <div class="marquee">
+        <div class="marquee-track">
+            <span>Next.js</span><span>React</span><span>TypeScript</span><span>Node.js</span><span>Express</span><span>Prisma</span><span>PostgreSQL</span><span>PHP</span><span>MySQL</span><span>Tailwind</span><span>Bootstrap</span><span>JavaScript</span><span>Python</span><span>SQL.js</span>
+        </div>
+    </div>
+
+    <button class="back-top" id="backTop" aria-label="Back to top">↑</button>
 
     <section class="stats" id="stats">
         <div class="stats-grid">
@@ -855,11 +918,12 @@
     </section>
 
     <footer>
-        <p>© 2026 nega.dev — Built with HTML, CSS & JS.</p>
+        <p>© 2026 Yousif Magdy (nega.dev) — Built with HTML, CSS & JS.</p>
         <div class="footer-links">
             <a href="#projects">Work</a>
             <a href="#about">About</a>
             <a href="#contact">Contact</a>
+            <a href="https://github.com/netrojo" target="_blank" rel="noopener">GitHub</a>
         </div>
     </footer>
 
@@ -964,7 +1028,12 @@
 
         // Navbar scroll
         const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+        const backTop = document.getElementById('backTop');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            backTop.classList.toggle('show', window.scrollY > 400);
+        });
+        backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
         // Cursor glow
         const glow = document.getElementById('cursorGlow');
