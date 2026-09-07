@@ -76,7 +76,7 @@
             --card-hover: rgba(109, 77, 242, 0.15);
         }
 
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; overflow-x: clip; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -96,6 +96,8 @@
             position: fixed;
             top: 0;
             width: 100%;
+            max-width: 100vw;
+            overflow: hidden;
             z-index: 100;
             padding: 1rem 1.5rem;
             display: flex;
@@ -173,6 +175,8 @@
             display: flex;
             align-items: center;
             gap: 0.6rem;
+            flex-shrink: 0;
+            margin-inline-start: auto;
         }
 
         .icon-btn {
@@ -228,12 +232,14 @@
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             background: var(--bg);
-            z-index: 99;
+            z-index: 999;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 1.8rem;
             opacity: 0;
+            overflow-y: auto;
+            padding: 4rem 1.5rem;
             transition: opacity 0.3s;
         }
 
@@ -266,6 +272,7 @@
             text-align: center;
             padding: 8rem 2rem 4rem;
             position: relative;
+            overflow: hidden;
         }
 
         .hero-bg {
@@ -389,6 +396,8 @@
             margin-bottom: 1.4rem;
             opacity: 0;
             animation: fadeUp 0.8s ease forwards 0.55s;
+            max-width: 100%;
+            overflow-wrap: break-word;
         }
 
         .type-line .cursor {
@@ -621,9 +630,15 @@
             align-items: center;
             gap: 0.5rem;
             min-width: 0;
+            flex-wrap: wrap;
         }
 
-        .project-title a { color: var(--text); text-decoration: none; transition: color 0.3s; }
+        .project-title a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s;
+            overflow-wrap: anywhere;
+        }
         .project-title a:hover { color: var(--accent); }
 
         .lang-dot {
@@ -946,10 +961,31 @@
             .about { grid-template-columns: 1fr; gap: 2rem; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .cta-input-group { flex-direction: column; }
+            .cta-input-group input,
+            .cta-input-group .btn-primary { width: 100%; min-width: 0; }
             .cta-box { padding: 2.5rem 1.4rem; }
             .about-visual { height: 300px; }
-            nav { padding: 0.9rem 1.2rem; }
+            nav { padding: 0.9rem 1.1rem; }
             .nav-cta { display: none; }
+            .hero { padding: 7rem 1.25rem 3.5rem; }
+            .hero-content { width: 100%; }
+            .type-line { font-size: 1rem; }
+            .avatar-wrap { width: 110px; height: 110px; }
+            .avatar-wrap img { width: 100px; height: 100px; }
+            section { padding: 4rem 1.25rem 2.5rem; }
+        }
+
+        @media (max-width: 400px) {
+            .icon-btn { width: 34px; height: 34px; }
+            .lang-toggle { padding: 0 0.6rem; font-size: 0.72rem; }
+            .logo { font-size: 1.1rem; }
+            h1 { font-size: clamp(1.9rem, 9vw, 2.4rem); }
+            .hero-desc { font-size: 0.98rem; }
+            .btn-primary, .btn-secondary { padding: 0.7rem 1.2rem; font-size: 0.88rem; }
+            .stats-grid { gap: 0.7rem; }
+            .stat-item h3 { font-size: 1.5rem; }
+            .about-visual { height: 240px; }
+            footer { padding: 1.6rem 1.2rem; }
         }
     </style>
 </head>
@@ -1183,7 +1219,7 @@
             const dict = I18N[lang];
             document.documentElement.setAttribute('lang', lang);
             document.body.setAttribute('data-lang', lang);
-            document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.dataset.i18n;
                 if (dict[key] !== undefined) el.textContent = dict[key];
