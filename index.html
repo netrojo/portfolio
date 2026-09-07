@@ -937,6 +937,8 @@
             ['🧠', 'JavaScript'], ['🐍', 'Python']
         ];
 
+        const isLocal = location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname);
+
         // Render projects
         const grid = document.getElementById('projectsGrid');
         grid.innerHTML = projects.map((p, i) => `
@@ -948,7 +950,7 @@
                 <p class="project-desc">${p.desc}</p>
                 <div class="project-stack">${p.stack.map(t => `<span class="stack-tag">${t}</span>`).join('')}</div>
                 <div class="project-links">
-                    ${p.live ? `<a class="btn-sm btn-live" href="${p.live}" target="_blank">${p.liveLabel || 'Live Preview'}</a>` : ''}
+                    ${p.live && isLocal ? `<a class="btn-sm btn-live" href="${p.live}" target="_blank">${p.liveLabel || 'Live Preview'}</a>` : ''}
                     <a class="btn-sm btn-code" href="${p.code}" target="_blank">${p.codeLabel || 'View Code'}</a>
                 </div>
             </div>
