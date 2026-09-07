@@ -1,4 +1,4 @@
-# Nega — Full-Stack Developer Portfolio
+# Yousif Magdy (Nega) — Full-Stack Developer Portfolio
 
 Personal developer portfolio & landing page — pure **HTML, CSS & JavaScript**. No frameworks, no build tools.
 
